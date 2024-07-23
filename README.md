@@ -47,6 +47,6 @@ To reproduce results for "hard-to-detect faults", use scripts:
 - `H2D_FAN.sh`
 - `H2D_NN-Hyb.sh`
 
-The command should be like `bash script/H2D_NN-Hyb.sh`. The outputs contain all results shown in Table II.
+The command should be like `bash ./script/H2D_NN-Hyb.sh`. The outputs contain all results shown in Table II.
 
-To reproduce results for NN-Hyb without acceleration, use the command `bash script/NoAcceleration_NN-Hyb.sh`. The outputs contain all results for NN-Hyb without lookup table shown in Table III.
+To reproduce results for NN-Hyb without acceleration, use the command `bash ./script/NoAcceleration_NN-Hyb.sh`. The outputs contain all results for NN-Hyb without lookup table shown in Table III.
