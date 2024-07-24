@@ -3,7 +3,7 @@ echo "FAN for all faults case"
 echo -e "\n"
 
 echo "K=1000"
-cd ./FAN
+cd ./FAN # cd to Atalanta source code from https://github.com/hsluoyz/Atalanta
 ./atalanta -b 1000 ../circuits/c1908.bench
 ./atalanta -b 1000 ../circuits/c2670.bench
 ./atalanta -b 1000 ../circuits/c3540.bench
