@@ -1,3 +1,0 @@
-
-
-void setGateTestability(int nog);
