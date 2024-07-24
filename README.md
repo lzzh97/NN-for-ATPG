@@ -1,6 +1,10 @@
 # Automatic Test Pattern Generators (ATPG)
 
-We provide three versions of automatic test pattern generators:
+In the paper we have compared the following 3 approaches:
+
+1. **NN-Hyb**: approach proposed by us
+2. **NN-All**: another alternative approach
+3. **FAN**: alternative approach used as a base for comparison
 
 1. **FAN**: The original implementation of the FAN algorithm, serving as a benchmark ATPG algorithm.
 2. **NN-Hyb**: Our NN-guided ATPG algorithm.
@@ -10,43 +14,50 @@ We provide three versions of automatic test pattern generators:
 
 This repository includes the following directories and files:
 
-- `artifacts_submission`
-  - `README`
-  - `FAN`: The original implementation of FAN algorithm.
-  - `NN-Hyb`: Our NN-guided ATPG algorithm.
-  - `NN-All`: ML model is applied to levels of a circuit.
-  - `circuits`: All the circuit files.
-  - `hard_faults`: Hard-to-detect fault files.
-  - `script`: Scripts to run our code.
+- `README.md`: instructions to compile and generate results in the paper
+- `NN-Hyb`: directory containing source code of our proposed approach
+- `NN-All`: directory containing soruce code of alternative approach compared in the paper
+- `circuits`: circuit files used in our experiments
+- `hard_faults`: hard-to-detect faults per circuit used in results of Table II in the paper
+- `script`: scripts to generate results in Tables I, II, III in the paper
 
 ## Installation
 
-1. Navigate to the appropriate directory:
-   - `./NN-Hyb` for the NN-guided ATPG algorithm.
-   - `./FAN` for the FAN algorithm.
-   - `./NN-All` for the NN-All algorithm.
-2. Compile Atalanta using the `make` command to create the binary file `atalanta`.
-3. Once compiled, run Atalanta under default settings using the command `./atalanta [path to circuit file]`.
+In the paper we have compared the following 3 approaches:
+
+(1) Fan: base approach for ATPG used for comparison
+(2) NN-Hyb: our approach based on applying our neural network (NN) model during backtrace at select levels of the circuit during ATPG
+(3) NN-All: another alternative approach using our NN model, but at all levels of the circuit
+
+To get an executable for (1), please download source code from https://github.com/hsluoyz/Atalanta and compile. (We did not include it because it is already published by another group.)
+
+For (2) and (3), please compile (using the make command) from the NN-Hyb and NN-All directories, respectively.
 
 ## Options
 
-- `-w`: Disable lookup table.
-- `-b n`: The number of maximum backtrackings for the FAN algorithm phase 1. (default: -b 10)
-- `-f fn`: Faults are read from the file fn. This option is available only for ISCAS89 netlist format. (default: faults are generated internally.)
+Once compiled, use the command ./atalanta [path to circuit file] from each directory. The options needed to generate the results of the paper are listed below:
+
+-w: Disable lookup table (enabled otherwise if -w not specified)
+-b n: Maximum number of backtracking (default: -b 10)
+-f fn: Faults are read from the file fn. This options is only used to generate the results in Table II in the paper. Otherwise, if a fault file is not specified, the input is assumed to be all possible faults.
 
 ## Run Experiments
+The scripts in the "script" directory can be used to generate the results in the paper reported in Tables (1), (2) and (3). These are shown below for each case:
 
-To reproduce results for "all faults cases", use scripts:
+(1) Scripts for generating results in Table I: "All Faults Case":
 - `AllFault_FAN.sh`
 - `AllFault_NN-All.sh`
 - `AllFault_NN-Hyb.sh`
 
-The command should be like `bash ./script/AllFault_NN-Hyb.sh`. The outputs contain all results shown in Table I.
+Table I reports fault coverage, ATPG effectiveness, number of backtracks and runtime. These quantities are reported by our program for NN-All and NN-Hyb. 
 
-To reproduce results for "hard-to-detect faults", use scripts:
+For FAN's results, the tool does not directly report ATPG effectiveness. To compute it use this formula: (#redundant_faults + #detected faults)/#total_number_of_faults 
+
+(2) Scripts for generating results in Table II: "Hard-to-Detect Faults":
 - `H2D_FAN.sh`
 - `H2D_NN-Hyb.sh`
 
-The command should be like `bash ./script/H2D_NN-Hyb.sh`. The outputs contain all results shown in Table II.
+(3) Scripts for generating results in Table III: "Acceleration with Lookup Approach":
+- `Acceleration_NN-Hyb.sh`
 
-To reproduce results for NN-Hyb without acceleration, use the command `bash ./script/NoAcceleration_NN-Hyb.sh`. The outputs contain all results for NN-Hyb without lookup table shown in Table III.
+This script produces the results for NN-Hyb case, for both cases of with and without acceleration.
