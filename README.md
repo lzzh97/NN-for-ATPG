@@ -41,7 +41,7 @@ To reproduce results for "all faults cases", use scripts:
 - `AllFault_NN-All.sh`
 - `AllFault_NN-Hyb.sh`
 
-The command should be like `bash script/AllFault_NN-Hyb.sh`. The outputs contain all results shown in Table I.
+The command should be like `bash ./script/AllFault_NN-Hyb.sh`. The outputs contain all results shown in Table I.
 
 To reproduce results for "hard-to-detect faults", use scripts:
 - `H2D_FAN.sh`
