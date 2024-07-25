@@ -26,7 +26,9 @@ For (2) and (3), please compile (using the make command) from the NN-Hyb and NN-
 Once compiled, use the command ./atalanta [path to circuit file] from each directory. The options needed to generate the results of the paper are listed below:
 
 -w: Disable lookup table (enabled otherwise if -w not specified)
+
 -b n: Maximum number of backtracking (default: -b 10)
+
 -f fn: Faults are read from the file fn. This options is only used to generate the results in Table II in the paper. Otherwise, if a fault file is not specified, the input is assumed to be all possible faults.
 
 ## Run Experiments
