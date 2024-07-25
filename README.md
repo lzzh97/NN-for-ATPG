@@ -6,9 +6,6 @@ In the paper we have compared the following 3 approaches:
 2. **NN-All**: another alternative approach
 3. **FAN**: alternative approach used as a base for comparison
 
-1. **FAN**: The original implementation of the FAN algorithm, serving as a benchmark ATPG algorithm.
-2. **NN-Hyb**: Our NN-guided ATPG algorithm.
-3. **NN-All**: ML model is applied to levels of a circuit.
 
 ## File Structure
 
