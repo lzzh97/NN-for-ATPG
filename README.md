@@ -1,12 +1,3 @@
-# Automatic Test Pattern Generators (ATPG)
-
-In the paper we have compared the following 3 approaches:
-
-1. **NN-Hyb**: approach proposed by us
-2. **NN-All**: another alternative approach
-3. **FAN**: alternative approach used as a base for comparison
-
-
 ## File Structure
 
 This repository includes the following directories and files:
