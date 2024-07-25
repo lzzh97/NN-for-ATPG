@@ -51,7 +51,7 @@ The scripts in the "script" directory can be used to generate the results in the
 
 Table I reports fault coverage, ATPG effectiveness, number of backtracks and runtime. These quantities are reported by our program for NN-All and NN-Hyb. 
 
-For FAN's results, the tool does not directly report ATPG effectiveness. To compute it use this formula: (#redundant_faults + #detected faults)/#total_number_of_faults 
+For FAN's results, the tool does not directly report ATPG effectiveness. To compute it use this formula: (#redundant_faults + #detected_faults)/#total_faults 
 
 (2) Scripts for generating results in Table II: "Hard-to-Detect Faults":
 - `H2D_FAN.sh`
