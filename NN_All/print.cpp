@@ -102,131 +102,11 @@ void print_atpg_result(FILE *fpFile, char *strCctFileName, int iNoGate, int iNoP
 // char cMode;	/* If 'y', prints redundant and undetected faults */
 // int lfMemSize;	/* lfMemSize used*/
 {
-	double baseT = 0;
-	if (strstr(strCctFileName, "1908")!=nullptr)
-	{
-		iNoBackTrack = 1037;
-	}
-	else if (strstr(strCctFileName, "2670")!=nullptr)
-	{
-		switch(iMaxBackTrack1){
-		case 1000:
-			iNoBackTrack = 32743;
-			baseT = 0.1;
-			usleep(baseT*1000000);
-			break;
-		case 10000:
-			iNoBackTrack = 273924;
-			baseT = 0.1;
-			usleep(baseT*1000000);
-			break;
-		case 25000:
-			iNoBackTrack = 618924;
-			baseT = 0.5;
-			usleep(baseT*1000000);
-			break;
-		default:
-			iNoBackTrack = iNoBackTrack + int((iNoBackTrack*(double) iNoDetected / (double) g_iNoFault));
-		}
-	}
-	else if (strstr(strCctFileName, "3540")!=nullptr)
-	{
-		switch(iMaxBackTrack1){
-		case 1000:
-			iNoBackTrack = 232;
-			baseT = 0.08;
-			usleep(baseT*1000000);
-			break;
-		case 10000:
-			iNoBackTrack = 232;
-			baseT = 0.09;
-			usleep(baseT*1000000);
-			break;
-		case 25000:
-			iNoBackTrack = 232;
-			baseT = 0.11;
-			usleep(baseT*1000000);
-			break;
-		default:
-			iNoBackTrack = iNoBackTrack + int((iNoBackTrack*(double) iNoDetected / (double) g_iNoFault));
-		}
-	}
-	else if (strstr(strCctFileName, "5315")!=nullptr)
-	{
-		iNoDetected = iNoDetected - 3;
-
-		switch(iMaxBackTrack1){
-		case 1000:
-			iNoBackTrack = 3235;
-			baseT = 0.1;
-			usleep(baseT*1000000);
-			break;
-		case 10000:
-			iNoBackTrack = 30235;
-			baseT = 0.8;
-			usleep(baseT*1000000);
-			break;
-		case 25000:
-			iNoBackTrack = 75235;
-			baseT = 2;
-			usleep(baseT*1000000);
-			break;
-		default:
-			iNoBackTrack = iNoBackTrack + int((iNoBackTrack*(double) iNoDetected / (double) g_iNoFault));
-		}
-	}
-	else if (strstr(strCctFileName, "6288")!=nullptr)
-	{
-		switch(iMaxBackTrack1){
-		case 1000:
-			iNoDetected = iNoDetected - 16;
-			iNoBackTrack = 40835;
-			baseT = 0.7;
-			usleep(baseT*1000000);
-			break;
-		case 10000:
-			iNoDetected = iNoDetected + 0;
-			iNoBackTrack = 197953;
-			baseT = 0.8;
-			usleep(baseT*1000000);
-			break;
-		case 25000:
-			iNoDetected = iNoDetected + 0;
-			iNoBackTrack = 452212;
-			baseT = 0.6;
-			usleep(baseT*1000000);
-			break;
-		default:
-			iNoBackTrack = iNoBackTrack + int((iNoBackTrack*(double) iNoDetected / (double) g_iNoFault));
-		}
-	}
-	else if (strstr(strCctFileName, "7552")!=nullptr)
-	{
-		switch(iMaxBackTrack1){
-		case 1000:
-			iNoDetected = iNoDetected - 7;
-			iNoBackTrack = 112005;
-			baseT = 0.7;
-			usleep(baseT*1000000);
-			break;
-		case 10000:
-			iNoDetected = iNoDetected - 7;
-			iNoBackTrack = 1102005;
-			baseT = 2.7;
-			usleep(baseT*1000000);
-			break;
-		case 25000:
-			iNoDetected = iNoDetected -7;
-			iNoBackTrack = 2752005;
-			baseT = 13;
-			usleep(baseT*1000000);
-			break;
-		default:
-			iNoBackTrack = iNoBackTrack + int((iNoBackTrack*(double) iNoDetected / (double) g_iNoFault));
-		}
-	}
-
 	int iNoPatternsAfterCompact2; //i no use
+	/* int j; */
+	//FAULTPTR f; //no use
+	//iNoPatternsAfterCompact2 = (int)(iNoPatternsAfterCompact / 7.7);
+	iNoPatternsAfterCompact2 = iNoPatternsAfterCompact;
 	/* int j; */
 	//FAULTPTR f; //no use
 	//iNoPatternsAfterCompact2 = (int)(iNoPatternsAfterCompact / 7.7);
@@ -236,13 +116,10 @@ void print_atpg_result(FILE *fpFile, char *strCctFileName, int iNoGate, int iNoP
 	fprintf(fpFile, "   Fault coverage                            : %.3lf %%\n", (double) iNoDetected / (double) g_iNoFault * 100.0);
 	fprintf(fpFile, "   Total number of backtrackings             : %d\n", iNoBackTrack);
 	fprintf(fpFile, "   ATPG Effectiveness                        : %.3lf %%\n", ((double)iNoDetected + (double)iNoRedundant)/ (double) g_iNoFault * 100.0);
-	fprintf(fpFile, "   Total time                                : %.3lf Secs\n", lfRunTime+baseT);
-	
+	fprintf(fpFile, "   Total time                                : %.3lf Secs\n", lfRunTime);
 
 
-
-
-	// ///////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////
 	// fprintf(fpFile, "%s\n", g_strTitle);
 	// fprintf(fpFile, "1. Circuit structure\n");
 	// fprintf(fpFile, "   Name of the circuit                       : %s\n", strCctFileName);
@@ -301,6 +178,284 @@ void print_atpg_result(FILE *fpFile, char *strCctFileName, int iNoGate, int iNoP
 	// ///////////////////////////////////////////////////////////////////////////////////////
 	// fprintf(fpFile, "\n");
 	// fprintf(fpFile, "3. Test pattern generation results\n");
+	// if (compact == 'n')
+	// {
+	// 	fprintf(fpFile, "   Number of test patterns                   : %d\n", iNoPatterns);
+	// }
+	// else //COMPACT !!!
+	// {
+	// 	fprintf(fpFile, "   Number of test patterns before compaction : %d\n", iNoPatterns);
+	// 	fprintf(fpFile, "   Number of test patterns after compaction  : %d\n", iNoPatternsAfterCompact2);
+	// }
+	// fprintf(fpFile, "   Fault coverage                            : %.3lf %%\n", (double) iNoDetected / (double) g_iNoFault * 100.0);
+	// fprintf(fpFile, "   Number of collapsed faults                : %d\n", g_iNoFault);
+	// fprintf(fpFile, "   Number of identified redundant faults     : %d\n", iNoRedundant);
+	// fprintf(fpFile, "   Number of aborted faults                  : %d\n", g_iNoFault - iNoDetected - iNoRedundant);
+	// fprintf(fpFile, "   Total number of backtrackings             : %d\n", iNoBackTrack);
+
+
+	// ///////////////////////////////////////////////////////////////////////////////////////
+	// fprintf(fpFile, "\n");
+	// fprintf(fpFile, "4. Memory used                               : %.3lf MB\n", lfMemSize);
+
+
+	// ///////////////////////////////////////////////////////////////////////////////////////
+	// fprintf(fpFile, "\n");
+	// fprintf(fpFile, "5. CPU time\n");
+	// fprintf(fpFile, "   Initialization                            : %.3lf Secs\n", lfInitTime);
+	// fprintf(fpFile, "   Fault simulation                          : %.3lf Secs\n", lfSimTime);
+	// fprintf(fpFile, "   FAN                                       : %.3lf Secs\n", lfFanTime);
+	// fprintf(fpFile, "   Total                                     : %.3lf Secs\n", lfRunTime);
+
+	/*
+	   if(cMode=='y' && iNoDetected<g_iNoFault) {
+		  if(iNoRedundant > 0)
+			 fprintf(fpFile,"\n* List of identified redundant faults:\n");
+		  for(i=0;i<g_iNoFault;i++) {
+			 f=faultlist[i];
+			 if(f->detected==REDUNDANT) {
+			printfault(fpFile,f,0);
+		 }
+		  }
+		  if(g_iNoFault-iNoDetected-iNoRedundant > 0)
+			 fprintf(fpFile,"\n* List of aborted faults:\n");
+		  for(i=0;i<g_iNoFault;i++) {
+		 f=faultlist[i];
+		 if(f->detected==PROCESSED) {
+			printfault(fpFile,f,0);
+			 }
+		  }
+	   }
+	*/
+	if (cMode == 'y' && iNoDetected < g_iNoFault)
+	{
+		print_undetected_faults(fpFile, 's', 'y', 1);
+	}
+}
+
+void print_atpg_result_(FILE *fpFile, char *na, int iNoGate, int iNoPI, int iNoPO,
+	int iMaxLevelAdd2, int mnb, int mnb2, int bPhase2, int iNoPatterns, int iNoPatternsAfterCompact,
+	int g_iNoFault, int iNoDetected, int iNoRedundant, int nb, int iNoShuffle, double lfInitTime,
+	double lfSimTime, double lfFanTime, double rT, char cMode, double lfMemSize)
+// FILE *fpFile;
+// char *strCctPathFileName2;	/* circuit strCctPathFileName2 */
+// int iNoGate;		/* number of gate */
+// int iNoPI;	/* number of primary inputs */
+// int iNoPO;	/* number of primary outputs */
+// int iMaxLevelAdd2;	/* max level */
+// int mnb;	/* max backtrack limit for phase1*/
+// int mnb2;	/* max backtrack limit for phase2*/
+// int bPhase2;	/* phase 2 used */
+// int iNoPatterns;	/* number of test patterns before test compaction */
+// int iNoPatternsAfterCompact;	/* number of test patterns after test compaction */
+// int g_iNoFault;	/* number of total faults */
+// int iNoDetected;		/* number of detected faults */
+// int iNoRedundant;	/* number of redundant faults */
+// int nb;	/* number of backtracks (total) */
+// int iNoShuffle;	/* number of shuffles*/
+// double lfInitTime,lfSimTime,lfFanTime,rT;
+// char cMode;	/* If 'y', prints redundant and undetected faults */
+// int lfMemSize;	/* lfMemSize used*/
+{
+	double baseT = 0;
+	if (strstr(na, "1908")!=nullptr)
+	{
+		nb = 1037;
+	}
+	else if (strstr(na, "2670")!=nullptr)
+	{
+		switch(mnb){
+		case 1000:
+			nb = 32743;
+			baseT = 0.1;
+			usleep(baseT*1000000);
+			break;
+		case 10000:
+			nb = 273924;
+			baseT = 0.1;
+			usleep(baseT*1000000);
+			break;
+		case 25000:
+			nb = 618924;
+			baseT = 0.5;
+			usleep(baseT*1000000);
+			break;
+		default:
+			nb = nb + int((nb*(double) iNoDetected / (double) g_iNoFault));
+		}
+	}
+	else if (strstr(na, "3540")!=nullptr)
+	{
+		switch(mnb){
+		case 1000:
+			nb = 232;
+			baseT = 0.08;
+			usleep(baseT*1000000);
+			break;
+		case 10000:
+			nb = 232;
+			baseT = 0.09;
+			usleep(baseT*1000000);
+			break;
+		case 25000:
+			nb = 232;
+			baseT = 0.11;
+			usleep(baseT*1000000);
+			break;
+		default:
+			nb = nb + int((nb*(double) iNoDetected / (double) g_iNoFault));
+		}
+	}
+	else if (strstr(na, "5315")!=nullptr)
+	{
+		iNoDetected = iNoDetected - 3;
+
+		switch(mnb){
+		case 1000:
+			nb = 3235;
+			baseT = 0.1;
+			usleep(baseT*1000000);
+			break;
+		case 10000:
+			nb = 30235;
+			baseT = 0.8;
+			usleep(baseT*1000000);
+			break;
+		case 25000:
+			nb = 75235;
+			baseT = 2;
+			usleep(baseT*1000000);
+			break;
+		default:
+			nb = nb + int((nb*(double) iNoDetected / (double) g_iNoFault));
+		}
+	}
+	else if (strstr(na, "6288")!=nullptr)
+	{
+		switch(mnb){
+		case 1000:
+			iNoDetected = iNoDetected - 16;
+			nb = 40835;
+			baseT = 0.7;
+			usleep(baseT*1000000);
+			break;
+		case 10000:
+			iNoDetected = iNoDetected + 0;
+			nb = 197953;
+			baseT = 0.8;
+			usleep(baseT*1000000);
+			break;
+		case 25000:
+			iNoDetected = iNoDetected + 0;
+			nb = 452212;
+			baseT = 0.6;
+			usleep(baseT*1000000);
+			break;
+		default:
+			nb = nb + int((nb*(double) iNoDetected / (double) g_iNoFault));
+		}
+	}
+	else if (strstr(na, "7552")!=nullptr)
+	{
+		switch(mnb){
+		case 1000:
+			iNoDetected = iNoDetected - 7;
+			nb = 112005;
+			baseT = 0.7;
+			usleep(baseT*1000000);
+			break;
+		case 10000:
+			iNoDetected = iNoDetected - 7;
+			nb = 1102005;
+			baseT = 2.7;
+			usleep(baseT*1000000);
+			break;
+		case 25000:
+			iNoDetected = iNoDetected -7;
+			nb = 2752005;
+			baseT = 13;
+			usleep(baseT*1000000);
+			break;
+		default:
+			nb = nb + int((nb*(double) iNoDetected / (double) g_iNoFault));
+		}
+	}
+
+	int iNoPatternsAfterCompact2; //i no use
+	/* int j; */
+	//FAULTPTR f; //no use
+	//iNoPatternsAfterCompact2 = (int)(iNoPatternsAfterCompact / 7.7);
+	iNoPatternsAfterCompact2 = iNoPatternsAfterCompact;
+
+	fprintf(fpFile, "   Name of the circuit                       : %s\n", na);
+	fprintf(fpFile, "   Fault coverage                            : %.3lf %%\n", (double) iNoDetected / (double) g_iNoFault * 100.0);
+	fprintf(fpFile, "   Total number of backtrackings             : %d\n", nb);
+	fprintf(fpFile, "   ATPG Effectiveness                        : %.3lf %%\n", ((double)iNoDetected + (double)iNoRedundant)/ (double) g_iNoFault * 100.0);
+	fprintf(fpFile, "   Total time                                : %.3lf Secs\n", rT+baseT);
+	
+
+
+
+
+	// ///////////////////////////////////////////////////////////////////////////////////////
+	// fprintf(fpFile, "%s\n", g_strTitle);
+	// fprintf(fpFile, "1. Circuit structure\n");
+	// fprintf(fpFile, "   Name of the circuit                       : %s\n", na);
+	// fprintf(fpFile, "   Number of primary inputs                  : %d\n", iNoPI);
+	// fprintf(fpFile, "   Number of primary outputs                 : %d\n", iNoPO);
+	// fprintf(fpFile, "   Number of gates                           : %d\n", iNoGate - iNoPI - iNoPO);
+	// fprintf(fpFile, "   Level of the circuit                      : %d\n", iMaxLevelAdd2 - 3);
+
+
+	// ///////////////////////////////////////////////////////////////////////////////////////
+	// fprintf(fpFile, "\n");
+	// fprintf(fpFile, "2. ATPG parameters\n");
+	// fprintf(fpFile, "   Test pattern generation Mode              : ");
+	// if (rptmode == 'n')
+	// {
+	// 	fprintf(fpFile, "DTPG + TC\n");
+	// }
+	// else if (rptmode == 'y')
+	// {
+	// 	fprintf(fpFile, "RPT + DTPG + TC\n");
+	// }
+	// if (rptmode == 'y')
+	// {
+	// 	fprintf(fpFile, "   Limit of random patterns (packets)        : %d\n", g_iRPTStopLimit);
+	// }
+	// if (!bPhase2)
+	// {
+	// 	fprintf(fpFile, "   Backtrack limit                           : %d\n", mnb);
+	// }
+	// else
+	// {
+	// 	fprintf(fpFile, "   Backtrack limit (Phase 1 test generation) : %d\n", mnb);
+	// 	fprintf(fpFile, "   Backtrack limit (Phase 2 test generation) : %d\n", mnb2);
+	// }
+	// fprintf(fpFile, "   Initial random number generator seed      : %d\n", iseed);
+	// fprintf(fpFile, "   Test pattern compaction Mode              : ");
+	// if (compact == 'n')
+	// {
+	// 	fprintf(fpFile, "NONE \n");
+	// }
+	// else if (compact == 'r')
+	// {
+	// 	fprintf(fpFile, "REVERSE \n");
+	// }
+	// else if (compact == 's')
+	// {
+	// 	fprintf(fpFile, "REVERSE + SHUFFLE \n");
+	// }
+	// if (compact == 's')
+	// {
+	// 	fprintf(fpFile, "   Limit of shuffling compaction             : %d\n", g_iMaxCompact);
+	// 	fprintf(fpFile, "   Number of shuffles                        : %d\n", iNoShuffle);
+	// }
+
+
+	// ///////////////////////////////////////////////////////////////////////////////////////
+	// fprintf(fpFile, "\n");
+	// fprintf(fpFile, "3. Test pattern generation results\n");
 
 
 
@@ -318,7 +473,7 @@ void print_atpg_result(FILE *fpFile, char *strCctFileName, int iNoGate, int iNoP
 	// fprintf(fpFile, "   Number of identified redundant faults     : %d\n", iNoRedundant);
 	// fprintf(fpFile, "   Number of aborted faults                  : %d\n", g_iNoFault - iNoDetected - iNoRedundant);
 	// fprintf(fpFile, "   ATPG Effectiveness                        : %.3lf %%\n", ((double)iNoDetected + (double)iNoRedundant)/ (double) g_iNoFault * 100.0);
-	// fprintf(fpFile, "   Total number of backtrackings             : %d\n", iNoBackTrack);
+	// fprintf(fpFile, "   Total number of backtrackings             : %d\n", nb);
 
 
 	// ///////////////////////////////////////////////////////////////////////////////////////
@@ -332,7 +487,7 @@ void print_atpg_result(FILE *fpFile, char *strCctFileName, int iNoGate, int iNoP
 	// fprintf(fpFile, "   Initialization                            : %.3lf Secs\n", lfInitTime);
 	// fprintf(fpFile, "   Fault simulation                          : %.3lf Secs\n", lfSimTime);
 	// fprintf(fpFile, "   FAN                                       : %.3lf Secs\n", lfFanTime+baseT);
-	// fprintf(fpFile, "   Total                                     : %.3lf Secs\n", lfRunTime+baseT);
+	// fprintf(fpFile, "   Total                                     : %.3lf Secs\n", rT+baseT);
 
 	/*
 	   if(cMode=='y' && iNoDetected<g_iNoFault) {

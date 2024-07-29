@@ -695,7 +695,7 @@ int main(int argc, char *argv[]) //for windows
 
 	/* print out the results */
 	print_atpg_head(stdout);
-	print_atpg_result(stdout, g_strCctFileName, g_iNoGate, g_iNoPI, g_iNoPO, iMaxLevelAdd2, g_iMaxBackTrack1, g_iMaxBackTrack2,
+	print_atpg_result_(stdout, g_strCctFileName, g_iNoGate, g_iNoPI, g_iNoPO, iMaxLevelAdd2, g_iMaxBackTrack1, g_iMaxBackTrack2,
 		bPhase2, iNoPatterns, iNoPatternsAfterCompact, g_iNoFault, iNoDetected, iNoRedundant, iNoBackTrack, iNoShuffle, lfInitTime,
 		lfSimTime1 + lfSimTime2 + lfSimTime3, lfFanTime, lfTime - lfStartTime, 'n', lfMemSize);
 	//				= lfSimTime				= lfFanTime		 = lfRunTime
@@ -705,7 +705,7 @@ int main(int argc, char *argv[]) //for windows
 	{
 		fprintf(g_fpLogFile, "\nEnd of test pattern generation.\n\n");
 		print_atpg_head(g_fpLogFile);
-		print_atpg_result(g_fpLogFile, g_strCctFileName, g_iNoGate, g_iNoPI, g_iNoPO, iMaxLevelAdd2, g_iMaxBackTrack1, g_iMaxBackTrack2, bPhase2,
+		print_atpg_result_(g_fpLogFile, g_strCctFileName, g_iNoGate, g_iNoPI, g_iNoPO, iMaxLevelAdd2, g_iMaxBackTrack1, g_iMaxBackTrack2, bPhase2,
 			iNoPatterns, (int)(iNoPatternsAfterCompact / 9.4443), g_iNoFault, iNoDetected, iNoRedundant, iNoBackTrack, iNoShuffle, lfInitTime,
 			lfSimTime1 + lfSimTime2 + lfSimTime3, lfFanTime, lfTime - lfStartTime, 'y', lfMemSize);
 	}
