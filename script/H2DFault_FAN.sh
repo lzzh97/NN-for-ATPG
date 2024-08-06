@@ -1,4 +1,3 @@
-﻿sed -i 's/\r//g' script/all-fault-cases.sh
 echo "FAN for hard-to-detect faults case"
 echo -e "\n"
 
