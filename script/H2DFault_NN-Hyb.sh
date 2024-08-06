@@ -1,4 +1,3 @@
-﻿sed -i 's/\r//g' script/all-fault-cases.sh
 echo "NN-Hyb for hard-to-detect faults case"
 echo -e "\n"
 
