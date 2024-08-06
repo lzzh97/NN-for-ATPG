@@ -17,7 +17,7 @@ In the paper we have compared the following 3 approaches:
 (2) NN-Hyb: our approach based on applying our neural network (NN) model during backtrace at select levels of the circuit during ATPG
 (3) NN-All: another alternative approach using our NN model, but at all levels of the circuit
 
-To get an executable for (1), please download source code from https://github.com/hsluoyz/Atalanta and compile. (We did not include it because it is already published by another group.)
+To get an executable for (1), please run "bash script/Install_FAN.sh". This script will first download the source code from https://github.com/hsluoyz/Atalanta, then compile and create the executable. (We did not provide the executable directly as it is already published by another group.)
 
 For (2) and (3), please compile (using the make command) from the NN-Hyb and NN-All directories, respectively.
 
