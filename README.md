@@ -51,3 +51,6 @@ For FAN's results, the tool does not directly report ATPG effectiveness. To comp
 - `Acceleration_NN-Hyb.sh`
 
 This script produces the results for NN-Hyb case, for both cases of with and without acceleration.
+
+---------------------------------------------------------------------------------------------------
+Circuit data are also provided at Dryad DOI: 10.5061/dryad.m0cfxppcm, and the programs are provided at Zenodo DOI 10.5281/zenodo.13218515.
