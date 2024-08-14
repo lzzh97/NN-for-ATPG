@@ -1,3 +1,17 @@
+## Paper
+
+This repository provides implementation for the following paper:
+
+```bibtex
+@inproceedings{
+anonymous2024efficient,
+title={Efficient and Effective Neural Networks for Automatic Test Pattern Generation},
+author={Lizi Zhang, Azadeh Davoodi},
+booktitle={6th ACM/IEEE International Symposium on Machine Learning for CAD},
+year={2024},
+}
+
+
 ## File Structure
 
 This repository includes the following directories and files:
