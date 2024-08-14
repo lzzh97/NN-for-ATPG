@@ -2,15 +2,7 @@
 
 This repository provides implementation for the following paper:
 
-```bibtex
-@inproceedings{
-anonymous2024efficient,
-title={Efficient and Effective Neural Networks for Automatic Test Pattern Generation},
-author={Lizi Zhang, Azadeh Davoodi},
-booktitle={6th ACM/IEEE International Symposium on Machine Learning for CAD},
-year={2024},
-}
-
+Lizi Zhang, Azadeh Davoodi, "Efficient and Effective Neural Networks for Automatic Test Pattern Generation", 6th MLCAD, 2024.
 
 ## File Structure
 
