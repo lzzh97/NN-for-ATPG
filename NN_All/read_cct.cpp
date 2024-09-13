@@ -323,17 +323,23 @@ int readCircuit(FILE *fpCctFile, char strCctName[]) //read_circuit
 	{
 		return((-1));
 	}
+	// got # and it is not end
 	if (c == '#')
 	{
+		// eq to  buf = readline()
+		// now 1st comment is read to buf
 		if (!fgets(buf, MAXSTRING, fpCctFile))
 		{
 			printFatalError(CIRCUITERROR);
 		}
 		buf[strlen(buf) - 1] = '\0';
 		bufptr = spc_to_und(buf);
+		// bench name has been conveyed by pointer
 		strcpy(strCctName, bufptr);
 	}
 
+	//HASHSIZE		299999   /* symbol table size, prime */
+	// symbol table is initialized to NULL
 	InitHash(pArrSymbolTable, HASHSIZE);
 
 	/* Pass 1:
@@ -344,15 +350,17 @@ int readCircuit(FILE *fpCctFile, char strCctName[]) //read_circuit
 	iGatesFanIn = 0;
 	pGateNext = (GATEPTR)NULL;
 
+	// it will get c into last char of one symbol("=""("")"","), and it will load symbol into strSymbol like INPUT|( or 12|= 
 	while ((c = getsymbol(fpCctFile, strSymbol)) != EOF)
 	{
 		switch (c)
 		{
 		case '=' :
-			/* a new gate */
+			/* a new gate */ // that symbol is the gate output num, we will insert that and gen its key(now it should be NULL)
 			pHash = Find_and_Insert_Hash(pArrSymbolTable, HASHSIZE, strSymbol, 0);
 			if ((pGate = pHash->gate) == NULL)
 			{
+				// malloc one GATETYPE to pGate
 				ALLOCATE(pGate, GATETYPE, 1);
 				pHash->gate = pGate;
 				pGate->hash = pHash;
@@ -361,7 +369,7 @@ int readCircuit(FILE *fpCctFile, char strCctName[]) //read_circuit
 			}
 			break;
 		case '(' :
-			/* gate type */
+			/* gate type */ // fn = get type  refer to define.h l65
 			if ((fn = gatetype(strSymbol)) < 0)
 			{
 				fprintf(stderr, "Error: Gate type %s is not valid\n", strSymbol);
@@ -369,7 +377,7 @@ int readCircuit(FILE *fpCctFile, char strCctName[]) //read_circuit
 			}
 			break;
 		case ',':
-			/* fanin list */
+			/* fanin list */ // also add gate input into hashtable
 			pHash = Find_and_Insert_Hash(pArrSymbolTable, HASHSIZE, strSymbol, 0);
 			if ((pGate2 = pHash->gate) == NULL)
 			{
@@ -396,6 +404,7 @@ int readCircuit(FILE *fpCctFile, char strCctName[]) //read_circuit
 			}
 			switch (fn)
 			{
+			// this time one line is over, check the info and complete it for each kind of symbol
 			case PI:
 				iNoPI++;
 				pGate2->index = iNoGate++;
@@ -424,7 +433,7 @@ int readCircuit(FILE *fpCctFile, char strCctName[]) //read_circuit
 						return (-1);
 					}
 				}
-
+				// as for the symbol(gate output), it refers the Gate so added abundant info
 				if (pGate == NULL)
 				{
 					fprintf(stderr, "Error: Syntax error in the circuit file\n");
@@ -462,10 +471,26 @@ int readCircuit(FILE *fpCctFile, char strCctName[]) //read_circuit
 	ALLOCATE(g_iHeadGateIndex, int, iNoPI);
 #endif
 	int cc = 0;
-	for (pGate = pGateNext; pGate != NULL; pGate = pGate->next)
-	{
-		//fprintf(stderr,"%d ",cc++);
-	}
+	// for (pGate = pGateNext; pGate != NULL; pGate = pGate->next)
+	// {
+	// 	fprintf(stderr,"[DEBUG info1 for pGate] symbol no. %c %c, type is %d \n",pGate->hash->symbol[0], pGate->hash->symbol[1], pGate->type);
+	// }
+
+	// HASHPTR test_hash;
+	// for (int iii = 0; iii < HASHSIZE; iii++)
+	// {
+	// 	if(pArrSymbolTable[iii] == NULL) {
+	// 		//printf("no. %d is NULL \n", iii);
+	// 		continue;
+	// 	}
+	// 	else 
+	// 		test_hash = pArrSymbolTable[iii];
+	// 		printf("no. %d is not NULL \n", iii);
+	// 		//printf("[DEBUG info2 for hash] %d \n", test_hash->gate->type);
+	// 		printf("[DEBUG info2 for hash] symbol no. %c%c, key %d, type is %d \n",test_hash->symbol[0] \
+	// 			, test_hash->symbol[1], test_hash->key, test_hash->gate->type);
+	// }
+
 	g_iNoGate = g_iNoPI = g_iNoPO = g_iNoFF = 0;
 	for (pGate = pGateNext; pGate != NULL; pGate = pGate->next)
 	{

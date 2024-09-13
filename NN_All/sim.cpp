@@ -84,7 +84,7 @@ extern FILE *g_fpLogFile;
 extern int *g_PrimaryIn, *g_PrimaryOut;
 extern FAULTPTR *g_pFaultList;
 extern STACKTYPE g_stack;
-extern char g_strVecFileName[FILENAME_MAX];
+extern char g_strVecFileName[100];
 
 #define checkbit(word,nth) ((word&BITMASK[nth])!=ALL0)
 #define setbit(word,nth) (word|=BITMASK[nth])
@@ -491,7 +491,6 @@ int testgen(int iNoGate, int iNoPI, int iNoPO, int iMaxLevelAdd2, int iMaxBitSiz
 	iFaultSelectionMode = DEFAULTMODE; //iFaultSelectionMode always = DEFAULTMODE(0)
 	iLastUndetectedFault = g_iNoFault;
 	g_iAllOne = ~(ALL1 << 1); //0x00000001
-	
 	bDone = FALSE;
 	while (!bDone)
 	{
@@ -561,14 +560,14 @@ int testgen(int iNoGate, int iNoPI, int iNoPO, int iMaxLevelAdd2, int iMaxBitSiz
 				printfault(g_fpLogFile, pLastUndetectedFault, 0);
 			}
 		}
-		// fprintf(stderr, "iLastUndetectedFault=%d\n", iLastUndetectedFault);
+		//fprintf(stderr, "iLastUndetectedFault=%d\n", iLastUndetectedFault);
 		getTime(&lfMinutes, &lfSeconds, &lfRunTime1);
-
 
 		/* test pattern generation using fan */
 		if (bPhase2 == FALSE) //Default !!
 		{
 			//iMaxBackTrack == 10
+			// fprintf(stderr,"%d, %d\n", iNoBackTrack, iMaxBackTrack);
 			iState = fan(iNoGate, iMaxLevelAdd2, iNoPI, iNoPO, pLastUndetectedFault, iMaxBackTrack, &iNoBackTrack);
 			//Output: iState & g_iPatternsForOneTime & iNoBackTrack & g_net[i] (PI, Test Patterns !!!)
 		}
